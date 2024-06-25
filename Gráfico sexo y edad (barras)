@@ -1,0 +1,54 @@
+#### REMOVER OBJETOS EXISTENTES ####
+cat("\014") 
+rm(list = ls()
+)
+
+# install.packages(calendR)
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("ggpubr")
+library(ggpubr)
+install.packages("tidyverse")
+library(tidyverse)
+install.packages("cowplot")
+library(cowplot)
+install.packages("grid")
+library(grid)
+install.packages("gridExtra")
+library(gridExtra)
+install.packages("sf")
+library(sf)
+install.packages("readxl")
+library(readxl)
+install.packages("dplyr")
+library(dplyr)
+install.packages("ggrepel")
+library(ggrepel)
+install.packages("simputation")
+library(simputation)
+
+#### DEFINIR DIRECTORIO ####
+getwd() # consultar directorio de trabajo
+setwd("C:/Users/JVEGAL/Desktop/BASES CONASET") # definir directorio
+
+#### CARGAS BASES DE DATOS ####
+motociclistas23 <- read_excel("motociclistas23.xlsx")
+
+## Participantes en siniestros segun sexo y edad
+
+grafico1 <- motociclistas23 %>%
+  mutate(Edad = as.numeric(Edad)) %>%
+  ggplot(aes(Edad,fill=Sexo)) +
+  geom_histogram(stat = "count") +
+  scale_fill_manual(values=  c("#00AFBB", "#E7B800"))+
+  theme_bw() +
+  labs(y = "Participantes", x = "Edad")+
+  facet_grid(Sexo~.)
+
+grafico1 <- grid.arrange(grafico1,
+                         bottom = textGrob(
+                           "n = 6.805",
+                           x = .98,
+                           hjust = 1,
+                           gp = gpar(fontface = "italic", fontsize = 9) 
+                         ))#utilizamos la funcion grid.arrange para agregar texto en la grafica
